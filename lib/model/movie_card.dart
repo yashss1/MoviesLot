@@ -229,10 +229,19 @@ class _MovieCardState extends State<MovieCard> {
           ),
           Positioned(
             bottom: 30,
-            right: 30,
+            left: size.width * .12,
             child: Icon(
-              Icons.favorite,
+              Icons.favorite_border,
               color: Colors.red,
+              size: 25,
+            ),
+          ),
+          Positioned(
+            bottom: 30,
+            right: size.width * .06,
+            child: Icon(
+              Icons.delete,
+              color: Colors.redAccent,
               size: 25,
             ),
           ),

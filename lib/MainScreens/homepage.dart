@@ -1,5 +1,7 @@
 import 'dart:ui';
+import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
+import 'package:projects_app/MainScreens/add_movie_page.dart';
 import 'package:projects_app/MainScreens/appdrawer.dart';
 import 'package:projects_app/model/movie_card.dart';
 import '../constants.dart';
@@ -45,21 +47,34 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             Positioned(
-              bottom: 20,
-              right: 20,
-              child: Container(
-                height: 60,
-                width: 60,
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.green),
-                  shape: BoxShape.circle,
-                  color: secondary,
+              bottom: 30,
+              right: 30,
+              child: OpenContainer(
+                closedBuilder: (_, openContainer) {
+                  return Container(
+                    height: 60,
+                    width: 60,
+                    child: IconButton(
+                      splashColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      onPressed: openContainer,
+                      icon: Icon(
+                        Icons.add,
+                        size: 30,
+                        color: Colors.black.withOpacity(0.8),
+                      ),
+                    ),
+                  );
+                },
+                openColor: Colors.green,
+                closedElevation: 50.0,
+                closedShape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(100),
                 ),
-                child: Icon(
-                  Icons.add,
-                  size: 30,
-                  color: Colors.black,
-                ),
+                closedColor: Colors.white,
+                openBuilder: (_, closeContainer) {
+                  return AddMoviePage();
+                },
               ),
             ),
             Positioned(
@@ -91,7 +106,8 @@ class _HomePageState extends State<HomePage> {
                           child: Text(
                             'Movies LOT',
                             style: TextStyle(
-                                color: Color(0xffB4FEE7),
+                                // color: Color(0xffB4FEE7),
+                                color: Colors.white,
                                 fontSize: 30,
                                 fontWeight: FontWeight.w700),
                           ),
@@ -108,7 +124,7 @@ class _HomePageState extends State<HomePage> {
                               child: Icon(
                                 Icons.menu,
                                 size: 35,
-                                color: secondary,
+                                color: Colors.white,
                               ),
                             ),
                           ),
