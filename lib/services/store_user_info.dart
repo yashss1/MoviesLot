@@ -4,6 +4,7 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:projects_app/MainScreens/homepage.dart';
 import 'package:projects_app/constants.dart';
 import 'package:projects_app/services/authentication_helper.dart';
+import 'package:projects_app/services/get_user_data.dart';
 
 class StoreUserdata extends StatefulWidget {
   const StoreUserdata(
@@ -56,7 +57,7 @@ class _StoreUserdataState extends State<StoreUserdata> {
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => HomePage(),
+                              builder: (context) => GetUserData(),
                             ),
                           );
                           setState(() {

@@ -9,6 +9,7 @@ import 'dart:ui';
 
 import 'package:projects_app/constants.dart';
 import 'package:projects_app/services/authentication_helper.dart';
+import 'package:projects_app/services/get_user_data.dart';
 import 'package:projects_app/services/validator.dart';
 
 class LoginPage extends StatefulWidget {
@@ -311,7 +312,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                                 context,
                                                 MaterialPageRoute(
                                                   builder: (context) =>
-                                                      HomePage(),
+                                                      GetUserData(),
                                                 ),
                                               );
                                             } else {

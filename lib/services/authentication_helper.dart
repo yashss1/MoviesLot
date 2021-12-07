@@ -58,6 +58,7 @@ class AuthenticationHelper {
           "Password": password,
           "Uid": uid,
           "IsAdmin": false,
+          "ProfilePhotoUrl": "https://freesvg.org/img/abstract-user-flat-4.png",
         }, SetOptions(merge: true))
         .then((value) => print("User Details Added"))
         .catchError((error) => print("Failed to add user: $error"));

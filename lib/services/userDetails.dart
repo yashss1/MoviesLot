@@ -5,4 +5,5 @@ class UserDetails {
   static String? password;
   static bool? isAdmin;
   static String? uid;
+  static String? profilePhotoUrl;
 }
