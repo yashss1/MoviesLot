@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
               elevation: 0,
             ),
             scaffoldBackgroundColor: Colors.white),
-        home: HomePage(),
+        home: GetUserData(),
       );
     } else {
       return MaterialApp(

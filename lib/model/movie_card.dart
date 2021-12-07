@@ -1,12 +1,27 @@
 import 'dart:ui';
 
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../constants.dart';
 
 class MovieCard extends StatefulWidget {
-  const MovieCard({Key? key}) : super(key: key);
+  const MovieCard(
+      {Key? key,
+      required this.name,
+      required this.storedIn,
+      required this.leadrole,
+      this.seasons = "",
+      this.isMovie = true,
+      this.imageUrl = "",
+      this.isMy = false,
+      this.id = ""})
+      : super(key: key);
+
+  final String name, storedIn, leadrole, seasons, imageUrl, id;
+  final bool isMovie, isMy;
 
   @override
   _MovieCardState createState() => _MovieCardState();
@@ -16,6 +31,7 @@ class _MovieCardState extends State<MovieCard> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    // print(widget.imageUrl);
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 2, vertical: 10),
       height: 280,
@@ -85,7 +101,7 @@ class _MovieCardState extends State<MovieCard> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            "Avengers : Endgame",
+                                            widget.name,
                                             maxLines: 2,
                                             overflow: TextOverflow.fade,
                                             style: TextStyle(
@@ -103,7 +119,9 @@ class _MovieCardState extends State<MovieCard> {
                                               ),
                                               SizedBox(width: 5),
                                               Text(
-                                                "Movie",
+                                                widget.isMovie
+                                                    ? "Movie"
+                                                    : "Series",
                                                 style: TextStyle(
                                                     color: Colors.white,
                                                     fontSize: 20),
@@ -121,7 +139,7 @@ class _MovieCardState extends State<MovieCard> {
                                                     fontSize: 20),
                                               ),
                                               Text(
-                                                "HDD",
+                                                widget.storedIn,
                                                 style: TextStyle(
                                                     color: Colors.white,
                                                     fontSize: 20),
@@ -158,7 +176,7 @@ class _MovieCardState extends State<MovieCard> {
                                             fontSize: 20),
                                       ),
                                       Text(
-                                        "Iron Man",
+                                        widget.leadrole,
                                         style: TextStyle(
                                             color: Colors.white, fontSize: 20),
                                       ),
@@ -176,7 +194,9 @@ class _MovieCardState extends State<MovieCard> {
                                             fontSize: 20),
                                       ),
                                       Text(
-                                        "0",
+                                        widget.seasons == ""
+                                            ? "0"
+                                            : widget.seasons,
                                         style: TextStyle(
                                             color: Colors.white, fontSize: 20),
                                       ),
@@ -218,10 +238,16 @@ class _MovieCardState extends State<MovieCard> {
                     margin: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
-                      image: DecorationImage(
-                          image: AssetImage('assets/images/test_image.jpg'),
-                          fit: BoxFit.fill),
                     ),
+                    child: widget.imageUrl.length < 1
+                        ? Image.asset(
+                            'assets/images/test_image.jpg',
+                            fit: BoxFit.fitWidth,
+                          )
+                        : Image(
+                            image: NetworkImage(widget.imageUrl),
+                            fit: BoxFit.fitWidth,
+                          ),
                   ),
                 ),
               ),
@@ -239,11 +265,100 @@ class _MovieCardState extends State<MovieCard> {
           Positioned(
             bottom: 30,
             right: size.width * .06,
-            child: Icon(
-              Icons.delete,
-              color: Colors.redAccent,
-              size: 25,
-            ),
+            child: widget.isMy
+                ? Container(
+                    child: InkWell(
+                      child: Icon(
+                        Icons.delete,
+                        color: Colors.redAccent,
+                        size: 25,
+                      ),
+                      onTap: () async {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return Dialog(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12.0)),
+                              elevation: 5,
+                              child: Container(
+                                padding: EdgeInsets.all(15),
+                                width: size.width * .6,
+                                height: 160,
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          "Confirmation",
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(height: 10),
+                                    Text(
+                                      widget.isMovie
+                                          ? "Are you Sure you want to delete this Movie ?"
+                                          : "Are you Sure you want to delete this Series ?",
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    SizedBox(height: 10),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 8),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          InkWell(
+                                            child: Text(
+                                              "Cancel",
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.w500),
+                                            ),
+                                            onTap: () {
+                                              Navigator.pop(context);
+                                            },
+                                          ),
+                                          InkWell(
+                                            child: Text(
+                                              "Delete",
+                                              style: TextStyle(
+                                                  color: Colors.red,
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.w500),
+                                            ),
+                                            onTap: () async {
+                                              await FirebaseFirestore.instance
+                                                  .collection("Movies")
+                                                  .doc(widget.id)
+                                                  .delete();
+                                              Navigator.pop(context);
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  )
+                : Container(),
           ),
         ],
       ),

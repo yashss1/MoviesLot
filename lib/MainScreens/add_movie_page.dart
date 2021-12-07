@@ -7,6 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:projects_app/services/userDetails.dart';
 import 'package:projects_app/services/validator.dart';
 
 import '../constants.dart';
@@ -29,7 +30,7 @@ class _AddMoviePageState extends State<AddMoviePage>
 
   // Form
   String name = "",
-      storedIn = "",
+      storedIn = "HDD",
       leadRole = "",
       totalSeasons = "0",
       imageUrl = "";
@@ -259,7 +260,8 @@ class _AddMoviePageState extends State<AddMoviePage>
                                                           image: DecorationImage(
                                                               image: AssetImage(
                                                                   'assets/images/test_image.jpg'),
-                                                              fit: BoxFit.fill),
+                                                              fit: BoxFit
+                                                                  .fitWidth),
                                                         ),
                                                       ),
                                               ),
@@ -522,6 +524,7 @@ class _AddMoviePageState extends State<AddMoviePage>
                                       'Name': name,
                                       'createdAt': Timestamp.now(),
                                       'isMovie': isMovie,
+                                      'AddedBy': UserDetails.uid,
                                       'StoredIn': storedIn,
                                       'LeadRole': leadRole,
                                       'Image': imageUrl,
@@ -616,7 +619,7 @@ class _AddMoviePageState extends State<AddMoviePage>
                                     'Add Movie / Series',
                                     style: TextStyle(
                                         // color: Color(0xffB4FEE7),
-                                        color: Colors.white,
+                                        color: Colors.black,
                                         // color: Colors.purple,
                                         fontSize: 25,
                                         fontWeight: FontWeight.w700),

@@ -22,19 +22,26 @@ dependencies:
   firebase_storage: ^10.2.0
   image_picker: ^0.8.4+1
   fluttertoast: ^8.0.8
+  cached_network_image: ^3.2.0
+  font_awesome_flutter: ^9.2.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
+  flutter_launcher_icons: "^0.9.0"
   flutter_lints: ^1.0.0
+
+flutter_icons:
+  image_path: "assets/images/test_image.jpg"
+  android: true
+  ios: true
 
 flutter:
 
   uses-material-design: true
   assets:
-     - assets/images/
-     - assets/lottie/
+    - assets/images/
+    - assets/lottie/
 
 
   fonts:

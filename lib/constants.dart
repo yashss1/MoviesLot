@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 Color blackbg = Color(0xff192028);
 Color secondary = Color(0xffB4FEE7);
+Color primary = Colors.black;
+// Color primary = Color(0xffb9b8ba);
 Color secondary2 = Color(0xffB75CFF);
 
 List<BoxShadow> shadowList = [
